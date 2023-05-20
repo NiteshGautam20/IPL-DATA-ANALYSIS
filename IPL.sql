@@ -2,7 +2,7 @@ create database ipl_2008_to_2020  ;
 use ipl_2008_to_2020;
 show tables;
 select * from ipl_ball_by_ball_2008_2020;
-select * from ipl_matches_2008_to_2020;
+select * from ipl_matches_2008_to_2020; 
 
 -- PROBLEMS 
 
