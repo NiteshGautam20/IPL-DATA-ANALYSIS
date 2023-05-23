@@ -130,6 +130,14 @@ group by winner
 order by total_win desc;
 
 
+-- Ques -16 write sql query to find Which bowler has taken the most wickets in IPL history?
+
+select bowler , count(is_wicket) as Total_wicket  from ipl_ball_by_ball_2008_2020
+where is_wicket >0
+group by bowler
+order by total_wicket desc
+
+
 
  
 
