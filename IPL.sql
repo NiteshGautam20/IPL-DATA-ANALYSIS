@@ -135,7 +135,14 @@ order by total_win desc;
 select bowler , count(is_wicket) as Total_wicket  from ipl_ball_by_ball_2008_2020
 where is_wicket >0
 group by bowler
-order by total_wicket desc
+order by total_wicket desc 
+limit 1 offset 0;
+
+-- or 
+select bowler , sum(is_wicket) as Total_wicket  from ipl_ball_by_ball_2008_2020
+group by bowler
+order by total_wicket desc 
+limit 1 offset 0;
 
 
 
