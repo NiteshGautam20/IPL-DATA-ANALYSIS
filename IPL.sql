@@ -145,10 +145,59 @@ order by total_wicket desc
 limit 1 offset 0;
 
 
+-- Ques -17 write sql query to find Which team has the highest win percentage in IPL history?
+
+with cte1 as
+(select team1 as team , (case when winner =team1 then 1 else 0 end) as result   from ipl_matches_2008_to_2020
+union all
+select team1 as team ,(case when winner =team2 then 1 else 0 end) as result   from ipl_matches_2008_to_2020)
+ , cte2 as 
+(select team ,count(1) as Total_Played_Match , sum(result) as win , round(100*sum(result) /count(1),2)  as win_percentage  from cte1 
+group by team)
+, cte3 as 
+(select * , dense_rank() over(partition by team order by win_percentage desc) as rn from cte2 )
+
+select * from cte3 
+where rn=1;
+
+
+-- Ques -18 write sql query to find Which team has won the most IPL championships?
+
+
+with cte1 as
+(select year(date) as year , winner as team , count(winner)as total_match_win_year_wise from ipl_matches_2008_to_2020
+group by year , winner 
+order by year , total_match_win_year_wise desc)
+, cte2 as
+(select * , dense_rank() over(partition by year order by total_match_win_year_wise desc  ) as rn 
+from cte1)
+
+select team  , count(1) as NUMBER_OF_CHAMPIONS , group_concat(year) As Winning_Years from cte2 
+where rn =1
+group by team 
+order by  NUMBER_OF_CHAMPIONS desc
+limit 1 offset 0;
+ 
+ 
+-- Ques -19 write sql query to find which player is orange cap winner season wise and who won more orange cap ?
+with cte1 as
+(select year(date) as year ,batsman , sum(batsman_runs) as total_runs from ipl_ball_by_ball_2008_2020  as b
+join ipl_matches_2008_to_2020 as m  on m.id =b.id
+group by batsman , year(date)
+order by year(date) ,total_runs desc)
+, cte2 as
+(select * , dense_rank() over(partition by year order by total_runs desc) as rn  from cte1 )
+ 
+select Batsman , count(1) as Number_orange_cap_winner , group_concat(year) as winning_years from cte2 
+where rn =1
+group by batsman 
+order by Number_orange_cap_winner  desc
+limit 1 offset 0;
 
  
 
- 
+
+
 
  
  
@@ -158,7 +207,6 @@ limit 1 offset 0;
     
         
  
-
 
  
        
