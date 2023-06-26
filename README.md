@@ -11,7 +11,7 @@
 
     •	Statistics
     
-    •     Tableau    
+    •      Tableau    
     
    ## STEPS:
 
